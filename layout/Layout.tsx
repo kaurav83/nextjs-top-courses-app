@@ -9,16 +9,14 @@ import { Sidebar } from './Sidebar/Sidebar';
 // export 
 const Layout = ({ children }: LayoutProps): JSX.Element => {
     return (
-        <>
-            <Header />
-            <div>
-                <Sidebar />
-                <div>
-                    {children}
-                </div>
+        <div className={styles.wrapper}>
+            <Header className={styles.header} />
+            <Sidebar className={styles.sidebar} />
+            <div  className={styles.main}>
+                {children}
             </div>
-            <Footer />
-        </>
+            <Footer className={styles.footer} />
+        </div>
     );
 };
 
