@@ -46,13 +46,6 @@ console.log(firstCategory, 'FIRST CATEGORY')
             <Tag size="m" color="green">some tag second</Tag>
             <Tag size="m" color="grey">some tag second</Tag>
             <Rating rating={rating} isEditable setRating={setRating} />
-            <ul>
-                {
-                    !!menu.length && menu.map((item) => {
-                        return <li key={item._id.secondCategory}>{item._id.secondCategory}</li>
-                    })
-                }
-            </ul>
         </>
         //</Layout>
   );
