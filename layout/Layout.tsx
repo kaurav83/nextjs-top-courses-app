@@ -6,6 +6,7 @@ import { Header } from './Header/Header';
 import { Footer } from './Footer/Footer';
 import { Sidebar } from './Sidebar/Sidebar';
 import { AppContextProvider } from '../context/app.context';
+import { IAppContext } from '../context/app.context';
 
 // export 
 const Layout = ({ children }: LayoutProps): JSX.Element => {
