@@ -45,13 +45,13 @@ export const Menu = (): JSX.Element => {
             </>
         );
     };
-    console.log(router, 'ROUTER')
+    // console.log(router, 'ROUTER');
     const renderSecondLevelMnu = (menuItem: FirstLevelMenuItem) => {
         return (
             <div className={styles.secondBlock}>
                 {menu.map(m => {
                     if (m.pages.map(p => p.alias).includes(router.asPath.split('/')[2])) {
-                        console.log(router.asPath.split('/')[2], 'sadfasdf');
+                        // console.log(router.asPath.split('/')[2], 'sadfasdf');
                         m.isOpened = true;
                     }
 

@@ -1,14 +1,31 @@
 import { TopPageComponentProps } from './TopPageComponent.props';
 import styles from './TopPageComponent.module.css';
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Htag } from '../../components/Htag/Htag';
 import { Tag } from '../../components/Tag/Tag';
 import { HhDataElement } from '../../components/HhDataElement/HhDataElement';
 import { TopLevelCategory } from '../../interfaces/page.interface';
 import { Advantages } from '../../components/Advantages/Advantages';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
+import { Sort } from '../../components/Sort/Sort';
+import { SortEnum } from '../../components/Sort/Sort.props';
+import { sortReducer } from './sort.reducer';
 
 export const TopPageComponent = ({ page, products, firstCategory }: TopPageComponentProps): JSX.Element => {
+    const [{ products: sortedProducts, sortValue }, dispatchSort] = useReducer(sortReducer, { products, sortValue: SortEnum.Rating });
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        dispatchSort({ type: 'reset', initialState: products });
+    }, [products]);
+
+    const setSort = (sortValue: SortEnum) => {
+        dispatchSort({ type: sortValue });
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -17,11 +34,14 @@ export const TopPageComponent = ({ page, products, firstCategory }: TopPageCompo
                     {page.title}
                 </Htag>
                 {!!products && <Tag color="grey" size="m">{products.length}</Tag>}
-                <span>Сортировка</span>
+                <Sort 
+                    sort={sortValue} 
+                    setSort={setSort}
+                />
             </div>
             <div>
                 {
-                    !!products && products.map(product => 
+                    !!sortedProducts && sortedProducts.map(product => 
                         <div key={product._id}>{product.title}</div>
                     )
                 }
@@ -44,7 +64,7 @@ export const TopPageComponent = ({ page, products, firstCategory }: TopPageCompo
                     </>
             }
             {
-                page.seoText && <Paragraph size="m">
+                mounted && page.seoText && <Paragraph size="m">
                     <span dangerouslySetInnerHTML={{__html: page.seoText}} />
                 </Paragraph>
             }

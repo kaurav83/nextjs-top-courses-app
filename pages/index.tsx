@@ -14,8 +14,8 @@ import { MenuItem } from '../interfaces/menu.interface';
 
 function Home({menu, firstCategory}: HomeProps): JSX.Element {
     const [rating, setRating] = useState<number>(4);
-console.log(menu, 'MENU');
-console.log(firstCategory, 'FIRST CATEGORY')
+// console.log(menu, 'MENU');
+// console.log(firstCategory, 'FIRST CATEGORY');
     return (
         // <Layout>
         <>
