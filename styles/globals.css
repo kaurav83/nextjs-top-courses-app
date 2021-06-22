@@ -32,3 +32,11 @@ a {
     --primary-hover: #6344DF;
     --ghost-hover: #EBEBEB;
 }
+
+hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background: #EBEBEB;
+    margin: 20px 0;
+}
