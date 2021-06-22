@@ -89,7 +89,7 @@ export const Product = ({ product, className, ...props }: ProductProps): JSX.Ele
                     </div>
                 }
             </div>
-            <div className={styles.hr}><hr /></div>
+            <div className={`${styles.hr} ${styles.hr2}`}><hr /></div>
             <div className={styles.actions}>
                 <Button tag="button" appearance="primary">Узнать подробнее</Button>
                 <Button
