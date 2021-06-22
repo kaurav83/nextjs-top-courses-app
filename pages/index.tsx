@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GetStaticProps } from 'next'; 
 import Head from 'next/head';
 import Image from 'next/image';
-import { Htag } from '../components';
+import { Htag, Input, Textarea } from '../components';
 import { Button } from '../components';
 import { Paragraph } from '../components';
 import { Tag } from '../components';
@@ -46,6 +46,8 @@ function Home({menu, firstCategory}: HomeProps): JSX.Element {
             <Tag size="m" color="green">some tag second</Tag>
             <Tag size="m" color="grey">some tag second</Tag>
             <Rating rating={rating} isEditable setRating={setRating} />
+            <Input placeholder="test" />
+            <Textarea placeholder="textarea" />
         </>
         //</Layout>
   );
