@@ -10,6 +10,7 @@ import { Paragraph } from '../../components/Paragraph/Paragraph';
 import { Sort } from '../../components/Sort/Sort';
 import { SortEnum } from '../../components/Sort/Sort.props';
 import { sortReducer } from './sort.reducer';
+import { Product } from '../../components/Product/Product';
 
 export const TopPageComponent = ({ page, products, firstCategory }: TopPageComponentProps): JSX.Element => {
     const [{ products: sortedProducts, sortValue }, dispatchSort] = useReducer(sortReducer, { products, sortValue: SortEnum.Rating });
@@ -42,7 +43,10 @@ export const TopPageComponent = ({ page, products, firstCategory }: TopPageCompo
             <div>
                 {
                     !!sortedProducts && sortedProducts.map(product => 
-                        <div key={product._id}>{product.title}</div>
+                        <Product 
+                            key={product._id} 
+                            product={product}    
+                        />
                     )
                 }
             </div>
