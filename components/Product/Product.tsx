@@ -1,7 +1,7 @@
 import { ProductProps } from './Product.props';
 import styles from './Product.module.css';
 import classnames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Card } from '../Card/Card';
 import { Rating } from '../Rating/Rating';
 import { Tag } from '../Tag/Tag';
@@ -9,6 +9,7 @@ import { Button } from '../Button/Button';
 import { declOfNum, priceRu } from '../../helpers/helpers';
 import Image from 'next/image';
 import { Review } from '../Review/Review';
+import { ReviewForm } from '../ReviewForm/ReviewForm';
 
 export const Product = ({ product, className, ...props }: ProductProps): JSX.Element => {
     const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
@@ -118,10 +119,14 @@ export const Product = ({ product, className, ...props }: ProductProps): JSX.Ele
                 product.reviews.map(review => {
                     
                     return (
-                        <Review review={review} key={review._id} />
+                        <Fragment key={review._id}>
+                            <Review review={review} />
+                            <hr />
+                        </Fragment>
                     );
                 })
             }
+            <ReviewForm productId={product._id} />
         </Card>
         </>
     );
