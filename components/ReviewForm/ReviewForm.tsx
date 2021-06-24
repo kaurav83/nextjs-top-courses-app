@@ -6,35 +6,71 @@ import { Rating } from '../Rating/Rating';
 import { Textarea } from '../Textarea/Textarea';
 import { Button } from '../Button/Button';
 import CloseReviewForm from './closeReviewForm.svg';
+import { useForm, Controller } from 'react-hook-form';
+import { IReviewForm } from './ReviewForm.interface';
 
 export const ReviewForm = ({ productId, className, ...props }: ReviewFormProps): JSX.Element => {
+    const { register, control, handleSubmit, formState: { errors } } = useForm<IReviewForm>();
+
+    const onSubmit = (data: IReviewForm) => {
+        console.log(data, 'DATA')
+    };
+
     return (
-        <>
-        <div 
-            className={`${styles.reviewForm} ${className}`}
-            {...props}
-        >
-            <Input placeholder="Имя" />
-            <Input className={styles.titleField} placeholder="Заголовок отзыва" />
-            <div className={styles.rating}>
-                <span>Оценка:</span>
-                <Rating rating={0} />
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div
+                className={`${styles.reviewForm} ${className}`}
+                {...props}
+            >
+                <Input
+                    {...register('name', { required: {value: true, message: 'Заполните имя'} })}
+                    placeholder="Имя"
+                    error={errors.name}
+                />
+                <Input
+                    {...register('title', { required: {value: true, message: 'Заполните заголовок'} })}
+                    className={styles.titleField}
+                    placeholder="Заголовок отзыва"
+                    error={errors.title}
+                />
+                <div className={styles.rating}>
+                    <span>Оценка:</span>
+                    <Controller
+                        control={control}
+                        name="rating"
+                        render={
+                            ({ field }) => {
+                                return (
+                                    <Rating
+                                        isEditable
+                                        rating={field.value}
+                                        setRating={field.onChange}
+                                        ref={field.ref}
+                                    />
+                                );
+                            }
+                        }
+                    />
+                </div>
+                <Textarea
+                    {...register('description', { required: {value: true, message: 'Добавьте описание'} })}
+                    className={styles.descriptionField}
+                    placeholder="Текст отзыва"
+                    error={errors.description}
+                />
+                <div className={styles.submit}>
+                    <Button tag="button" appearance="primary">Отправить</Button>
+                    <span className={styles.text}>* Перед публикацией отзыв пройдет предварительную модерацию и проверку</span>
+                </div>
             </div>
-            <Textarea className={styles.descriptionField} placeholder="Текст отзыва" />
-            <div className={styles.submit}>
-                <Button tag="button" appearance="primary">Отправить</Button>
-                <span className={styles.text}>* Перед публикацией отзыв пройдет предварительную модерацию и проверку</span>
+            <div className={styles.success}>
+                <div className={styles.successTitle}>Ваш отзыв отправлен</div>
+                <div>
+                    Спасибо, ваш отзыв будет опубликован после проверки.
+                </div>
+                <CloseReviewForm className={styles.closeIcon} />
             </div>
-        </div>
-        <div className={styles.success}>
-            <div className={styles.successTitle}>Ваш отзыв отправлен</div>
-            <div>
-                Спасибо, ваш отзыв будет опубликован после проверки.
-            </div>
-            <CloseReviewForm className={styles.closeIcon} />
-        </div>
-        </>
+        </form>
     );
 };
 
- 

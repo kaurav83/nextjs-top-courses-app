@@ -10,8 +10,24 @@
 	font-weight: 400;
 	font-family: var(--font-family);
 	line-height: 22px;
+	width: 100%;
 }
 
 .textarea::placeholder {
 	color: #A4A4A4;
+}
+
+.error {
+	border: 1px solid var(--red);
+}
+
+.fieldBlock {
+	position: relative;
+}
+
+.errorMessage {
+	position: absolute;
+	bottom: -20px;
+	left: 0;
+	color: var(--red);
 }
