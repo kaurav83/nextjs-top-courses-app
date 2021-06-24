@@ -46,10 +46,12 @@ export const ReviewForm = ({ productId, className, ...props }: ReviewFormProps):
                                         rating={field.value}
                                         setRating={field.onChange}
                                         ref={field.ref}
+                                        error={errors.rating}
                                     />
                                 );
                             }
                         }
+                        rules={{ required: {value: true, message: 'Укажите рейтинг'} }}
                     />
                 </div>
                 <Textarea
