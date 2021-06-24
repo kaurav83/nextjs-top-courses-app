@@ -51,6 +51,7 @@ export const ReviewForm = ({ productId, className, ...props }: ReviewFormProps):
                                 );
                             }
                         }
+                        
                         rules={{ required: {value: true, message: 'Укажите рейтинг'} }}
                     />
                 </div>
