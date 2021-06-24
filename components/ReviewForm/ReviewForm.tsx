@@ -1,19 +1,38 @@
+import React, { useState } from 'react';
 import { ReviewFormProps } from './ReviewForm.props';
 import styles from './ReviewForm.module.css';
-import React from 'react';
 import { Input } from '../Input/Input';
 import { Rating } from '../Rating/Rating';
 import { Textarea } from '../Textarea/Textarea';
 import { Button } from '../Button/Button';
 import CloseReviewForm from './closeReviewForm.svg';
 import { useForm, Controller } from 'react-hook-form';
-import { IReviewForm } from './ReviewForm.interface';
+import { IReviewForm, IReviewSentResponse } from './ReviewForm.interface';
+import axios from 'axios';
 
 export const ReviewForm = ({ productId, className, ...props }: ReviewFormProps): JSX.Element => {
-    const { register, control, handleSubmit, formState: { errors } } = useForm<IReviewForm>();
+    const { register, control, handleSubmit, formState: { errors }, reset } = useForm<IReviewForm>();
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [errorState, setErrorState] = useState<string>();
 
-    const onSubmit = (data: IReviewForm) => {
-        console.log(data, 'DATA')
+    const onSubmit = async (formData: IReviewForm) => {
+        const apiSubmit = process.env.NEXT_PUBLIC_DOMAIN + '/api/review/create-demo';
+
+        try {
+            const { data } = await axios.post<IReviewSentResponse>(apiSubmit, {
+                ...formData, productId
+            });
+
+            if (data.message) {
+                setIsSuccess(true);
+                reset();
+            } else {
+                setErrorState('Что то пошло не так');
+            }
+
+        } catch (e) {
+            setErrorState(e.message);
+        }
     };
 
     return (
@@ -23,12 +42,12 @@ export const ReviewForm = ({ productId, className, ...props }: ReviewFormProps):
                 {...props}
             >
                 <Input
-                    {...register('name', { required: {value: true, message: 'Заполните имя'} })}
+                    {...register('name', { required: { value: true, message: 'Заполните имя' } })}
                     placeholder="Имя"
                     error={errors.name}
                 />
                 <Input
-                    {...register('title', { required: {value: true, message: 'Заполните заголовок'} })}
+                    {...register('title', { required: { value: true, message: 'Заполните заголовок' } })}
                     className={styles.titleField}
                     placeholder="Заголовок отзыва"
                     error={errors.title}
@@ -51,12 +70,12 @@ export const ReviewForm = ({ productId, className, ...props }: ReviewFormProps):
                                 );
                             }
                         }
-                        
-                        rules={{ required: {value: true, message: 'Укажите рейтинг'} }}
+
+                        rules={{ required: { value: true, message: 'Укажите рейтинг' } }}
                     />
                 </div>
                 <Textarea
-                    {...register('description', { required: {value: true, message: 'Добавьте описание'} })}
+                    {...register('description', { required: { value: true, message: 'Добавьте описание' } })}
                     className={styles.descriptionField}
                     placeholder="Текст отзыва"
                     error={errors.description}
@@ -66,13 +85,31 @@ export const ReviewForm = ({ productId, className, ...props }: ReviewFormProps):
                     <span className={styles.text}>* Перед публикацией отзыв пройдет предварительную модерацию и проверку</span>
                 </div>
             </div>
-            <div className={styles.success}>
-                <div className={styles.successTitle}>Ваш отзыв отправлен</div>
-                <div>
-                    Спасибо, ваш отзыв будет опубликован после проверки.
+            {
+                isSuccess
+                &&
+                <div className={styles.success}>
+                    <div className={styles.successTitle}>Ваш отзыв отправлен</div>
+                    <div>
+                        Спасибо, ваш отзыв будет опубликован после проверки.
+                    </div>
+                    <CloseReviewForm 
+                        className={styles.closeIcon} 
+                        onClick={() => setIsSuccess(false)}
+                    />
                 </div>
-                <CloseReviewForm className={styles.closeIcon} />
-            </div>
+            }
+            {
+                errorState
+                &&
+                <div className={styles.error}>
+                    Что то пошло не так, попробуйте обновить страницу
+                    <CloseReviewForm 
+                        className={styles.closeIcon} 
+                        onClick={() => setErrorState(undefined)}
+                    />
+                </div>
+            }
         </form>
     );
 };

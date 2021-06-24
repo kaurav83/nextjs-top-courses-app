@@ -38,6 +38,18 @@
     margin-top: 20px;
 }
 
+.error {
+    background: var(--red);
+    padding: 20px;
+    position: relative;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.error svg path {
+    stroke: red;
+}
+
 .successTitle {
     font-weight: bold;
 }
