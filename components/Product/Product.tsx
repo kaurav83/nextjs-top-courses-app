@@ -15,6 +15,14 @@ export const Product = ({ product, className, ...props }: ProductProps): JSX.Ele
     const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
     const reviewRef = useRef<HTMLDivElement>(null);
 
+    const srollToReview = () => {
+        setIsReviewOpened(true);
+        reviewRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    };
+
     return (
         <div className={className} {...props}>
             <Card className={`${styles.product}`}>
@@ -61,7 +69,9 @@ export const Product = ({ product, className, ...props }: ProductProps): JSX.Ele
                     Кредит
                 </div>
                 <div className={styles.rateTitle}>
-                    {product.reviewCount} {declOfNum(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
+                    <a href="#ref" onClick={srollToReview}>
+                        {product.reviewCount} {declOfNum(product.reviewCount, ['отзыв', 'отзыва', 'отзывов'])}
+                    </a>
                 </div>
                 <div className={styles.hr}><hr className={styles.hr} /></div>
                 <div className={styles.description}>
@@ -115,6 +125,7 @@ export const Product = ({ product, className, ...props }: ProductProps): JSX.Ele
                         :
                         `${styles.reviews} ${styles.closed}`
                 }
+                ref={reviewRef}
             >
                 {
                     product.reviews.map(review => {
