@@ -45,7 +45,8 @@ export const TopPageComponent = ({ page, products, firstCategory }: TopPageCompo
                     !!sortedProducts && sortedProducts.map(product => 
                         <Product 
                             key={product._id} 
-                            product={product}    
+                            product={product}
+                            layout 
                         />
                     )
                 }

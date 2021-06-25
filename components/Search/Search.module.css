@@ -5,14 +5,15 @@
 
 .input {
 	width: 100%;
-	padding-right: 19px;
+	/* padding-right: 19px; */
 }
 
 .button {
 	position: absolute;
 	top: 50%;
-	right: auto;
-	transform: translate(-50%, -50%);
+	transform: translate(0, -50%);
 	width: 34px;
     height: 34px;
+	position: absolute;
+    right: 0;
 }
