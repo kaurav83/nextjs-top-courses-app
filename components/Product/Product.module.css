@@ -257,16 +257,8 @@
 
 
 .reviews {
-    
-}
-
-.opened {
-    max-height: auto;
-    padding: 30px;
-}
-
-.closed {
     overflow: hidden;
-    max-height: 0;
-    padding: 0;
+	padding: 30px;
 }
+
+

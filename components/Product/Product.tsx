@@ -17,6 +17,17 @@ export const Product = motion(forwardRef(
         const [isReviewOpened, setIsReviewOpened] = useState<boolean>(false);
         const reviewRef = useRef<HTMLDivElement>(null);
 
+        const variants = {
+            visible: {
+                opacity: 1,
+                height: 'auto'
+            },
+            hidden: {
+                opacity: 0,
+                height: 0
+            }
+        };
+
         const srollToReview = () => {
             setIsReviewOpened(true);
             reviewRef.current?.scrollIntoView({
@@ -119,29 +130,30 @@ export const Product = motion(forwardRef(
                         >Читать отзывы</Button>
                     </div>
                 </Card>
-                <Card
-                    color="blue"
-                    className={
-                        isReviewOpened ?
-                            `${styles.reviews} ${styles.opened}`
-                            :
-                            `${styles.reviews} ${styles.closed}`
-                    }
-                    ref={reviewRef}
+                <motion.div
+                    animate={isReviewOpened ? 'visible' : 'hidden'}
+                    variants={variants}
+                    initial="hidden"
                 >
-                    {
-                        product.reviews.map(review => {
+                    <Card
+                        color="blue"
+                        className={`${styles.reviews}`}
+                        ref={reviewRef}
+                    >
+                        {
+                            product.reviews.map(review => {
 
-                            return (
-                                <Fragment key={review._id}>
-                                    <Review review={review} />
-                                    <hr />
-                                </Fragment>
-                            );
-                        })
-                    }
-                    <ReviewForm productId={product._id} />
-                </Card>
+                                return (
+                                    <Fragment key={review._id}>
+                                        <Review review={review} />
+                                        <hr />
+                                    </Fragment>
+                                );
+                            })
+                        }
+                        <ReviewForm productId={product._id} />
+                    </Card>
+                </motion.div>
             </div>
         );
     }
