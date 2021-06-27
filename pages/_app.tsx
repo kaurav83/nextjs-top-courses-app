@@ -3,16 +3,17 @@ import '../styles/globals.css';
 import Head from 'next/head';
 import React from 'react';
 import ReactGA from 'react-ga';
+import Router from 'next/router';
+
+Router.events.on('routeChangeComplete', (url: string) => {
+    // проверяем, что мы не на сервере
+    if (typeof window !== 'undefined') {
+        ReactGA.pageview(url);
+    }
+});
 
 function MyApp({ Component, pageProps, router }: AppProps): JSX.Element {
     ReactGA.initialize('UA-000000-01');
-
-    router.events.on('routeChangeComplete', (url: string) => {
-        // проверяем, что мы не на сервере
-        if (typeof window !== 'undefined') {
-            ReactGA.pageview(url);
-        }
-    });
 
     return (
         <>
