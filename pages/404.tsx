@@ -1,7 +1,6 @@
 import React from 'react';
 import { withLayout } from '../layout/Layout';
 import { Htag } from '../components/Htag/Htag';
-import { isAbsolute } from 'path/posix';
 
 const Error404 = (): JSX.Element => {
     return (
